@@ -10,7 +10,7 @@ on:
       confirm-push:
         description: 'Push to GitHub container registry (default, false)?'
         required: true
-        default: 'true'
+        default: 'false'
 
 jobs:
   publish-to-ghcr:
@@ -36,7 +36,3 @@ jobs:
         with:
           push: ${{ github.event.inputs.confirm-push }}
           tags: ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
-      #- name: Push
-      #  id: push
-      #  run: |
-      #    docker push ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
