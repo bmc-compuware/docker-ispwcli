@@ -6,11 +6,11 @@ on:
       tag-ver:
         description: 'Tag container version (default, latest). For example, v20.7.1'
         required: true
-        default: 'latest'
+        default: 'slim-latest'
       confirm-push:
         description: 'Push to GitHub container registry (default, false)?'
         required: true
-        default: 'false'
+        default: 'true'
 
 jobs:
   publish-to-ghcr:
@@ -35,8 +35,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: false
-          tags: compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
-      - name: Push
-        id: push
-        run: |
-          docker push ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
+          tags: ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
+      #- name: Push
+      #  id: push
+      #  run: |
+      #    docker push ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
