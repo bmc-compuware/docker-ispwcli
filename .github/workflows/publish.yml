@@ -10,7 +10,7 @@ on:
       confirm-push:
         description: 'Push to GitHub container registry (default, false)?'
         required: true
-        default: false
+        default: 'false'
 
 jobs:
   publish-to-ghcr:
