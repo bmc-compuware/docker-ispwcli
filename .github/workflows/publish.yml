@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Download Topaz CLI release
         run: |
-          ./dist/download.sh ${{ secrets.GITHUB_TOKEN }} ${{ github.event.inputs.tag-ver }}.gtk
+          ./dist/download.sh ${{ secrets.XDEVREG_DOWNLOAD }} ${{ github.event.inputs.tag-ver }}.gtk
       -
         name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
