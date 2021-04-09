@@ -14,7 +14,7 @@ set -e
 
 # Parse CLI args
 readonly github_oauth_token="$1"
-readonly git_tag="v20.6.1.gtk"
+readonly git_tag="$2"
 readonly github_repo_owner="compuware-ispw"
 readonly github_repo_name="topaz-cli"
 readonly release_asset_filename="TopazCLI-linux.gtk.x86_64.zip"
@@ -24,10 +24,8 @@ readonly output_path="./dist/TopazCLI-linux.gtk.x86_64.zip"
 github_tag_id=$(curl --silent --show-error \
                      --header "Authorization: token $github_oauth_token" \
                      --request GET \
-                     "https://api.github.com/repos/$github_repo_owner/$github_repo_name/releases")
-
-echo "github_tag_id=$github_tag_id"
-github_tag_id=$(echo $github_tag_id | jq --raw-output ".[] | select(.tag_name==\"$git_tag\").id")
+                     "https://api.github.com/repos/$github_repo_owner/$github_repo_name/releases" \
+                     | jq --raw-output ".[] | select(.tag_name==\"$git_tag\").id")
 
 # Get the download URL of our desired asset
 download_url=$(curl --silent --show-error \
