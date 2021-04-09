@@ -6,7 +6,7 @@ on:
       tag-ver:
         description: 'Tag container version (default, latest). For example, v20.7.1'
         required: true
-        default: 'slim-latest'
+        default: 'v20.6.1'
       confirm-push:
         description: 'Push to GitHub container registry (default, false)?'
         required: true
