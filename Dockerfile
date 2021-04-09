@@ -5,7 +5,7 @@ LABEL author="Compuware - A BMC Company"
 USER root
 
 RUN apt-get --no-install-recommends update \
-    && apt-get install -y --no-install-recommends unzip git \
+    && apt-get install -y --no-install-recommends unzip git-core \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /TopazCliInstall
