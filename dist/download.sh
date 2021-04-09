@@ -55,3 +55,7 @@ wget $redirect_url -O $output_path
 #          --output "$output_path" \
 #          --request GET \
 #          "$redirect_url"
+
+echo "Sleeping for 45..."
+sleep 45
+echo "Time to wake up!"
