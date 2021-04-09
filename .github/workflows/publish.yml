@@ -28,9 +28,9 @@ jobs:
         uses: jakejarvis/wait-action@v0.1.0
         with:
           time: '45s'
-      - 
-        name: auto commit
-        uses: stefanzweifel/git-auto-commit-action@v4
+      #- 
+      #  name: auto commit
+      #  uses: stefanzweifel/git-auto-commit-action@v4
       -
         name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
