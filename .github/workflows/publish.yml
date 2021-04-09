@@ -16,12 +16,12 @@ jobs:
   publish-to-ghcr:
     runs-on: ubuntu-latest
     steps:
-      - name: Download Topaz CLI release
-        run: |
-          ./dist/download.sh ${{ secrets.GITHUB_TOKEN }} "${{ secrets.GITHUB_TOKEN }}.gtk"
       -
         name: Checkout
         uses: actions/checkout@v2
+      - name: Download Topaz CLI release
+        run: |
+          ./dist/download.sh ${{ secrets.GITHUB_TOKEN }} "${{ secrets.GITHUB_TOKEN }}.gtk"
       -
         name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
