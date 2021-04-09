@@ -33,6 +33,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      #Seems buggy, cannot handle dynamic download package asset, e.g., TopazCLI.zip during runtime
+      #- 
+      #  name: Build
+      #  id: docker_build
+      #  uses: docker/build-push-action@v2
+      #  with:
+      #    push: ${{ github.event.inputs.confirm-push }}
+      #    tags: ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
       - 
         name: Build and push docker
         run: |
@@ -42,11 +50,3 @@ jobs:
             echo "Push... ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}"
             docker push ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
           fi
-
-      #- Seems buggy, cannot handle dynamic download package topazcli during runtime
-      #  name: Build
-      #  id: docker_build
-      #  uses: docker/build-push-action@v2
-      #  with:
-      #    push: ${{ github.event.inputs.confirm-push }}
-      #    tags: ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
