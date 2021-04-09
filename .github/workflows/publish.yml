@@ -29,10 +29,8 @@ jobs:
         with:
           time: '45s'
       - 
-        name: add and commit (tmp)
-        run: |
-          git add ./dist/TopazCLI-linux.gtk.x86_64.zip
-          git commit -m "tmp add" ./dist/TopazCLI-linux.gtk.x86_64.zip
+        name: auto commit
+        uses: stefanzweifel/git-auto-commit-action@v4
       -
         name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
