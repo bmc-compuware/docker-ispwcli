@@ -48,9 +48,10 @@ redirect_url=$(curl --silent --show-error \
           "$download_url")
 echo redirect_url=$redirect_url
 
+wget $redirect_url
 # Finally download the actual binary
-curl --silent --show-error \
-          --header "Accept: application/octet-stream" \
-          --output "$output_path" \
-          --request GET \
-          "$redirect_url"
+#curl --silent --show-error \
+#          --header "Accept: application/octet-stream" \
+#          --output "$output_path" \
+#          --request GET \
+#          "$redirect_url"
