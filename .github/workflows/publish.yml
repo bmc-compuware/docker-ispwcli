@@ -14,7 +14,7 @@ on:
 
 jobs:
   publish-to-ghcr:
-    runs-on: [self-hosted, ubuntu20]
+    runs-on: ubuntu-latest
     steps:
       -
         name: Checkout
