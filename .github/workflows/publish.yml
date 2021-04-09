@@ -23,14 +23,6 @@ jobs:
         name: Download Topaz CLI release
         run: |
           ./dist/download.sh ${{ secrets.XDEVREG_DOWNLOAD }} ${{ github.event.inputs.tag-ver }}.gtk compuware-ispw topaz-cli TopazCLI-linux.gtk.x86_64.zip ./dist/TopazCLI-linux.gtk.x86_64.zip
-      #- 
-      #  name: Wait / Sleep
-      #  uses: jakejarvis/wait-action@v0.1.0
-      #  with:
-      #    time: '45s'
-      #- 
-      #  name: auto commit
-      #  uses: stefanzweifel/git-auto-commit-action@v4
       -
         name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -41,11 +33,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: build image
+      - 
+        name: build image and push
         run: |
-          docker build -t ghcr.io/compuware-ispw/ispwcli:v20.6.1 .
+          docker build -t ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }} .
+          if ${{ github.event.inputs.confirm-push }} == true ; then
+            docker push ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
+          fi
 
-      #-
+      #- Seems buggy, cannot handle dynamic download package topazcli during runtime
       #  name: Build
       #  id: docker_build
       #  uses: docker/build-push-action@v2
