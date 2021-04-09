@@ -14,7 +14,7 @@ set -e
 
 # Parse CLI args
 readonly github_oauth_token="$1"
-readonly git_tag="$2"
+readonly git_tag="v20.6.1.gtk"
 readonly github_repo_owner="compuware-ispw"
 readonly github_repo_name="topaz-cli"
 readonly release_asset_filename="TopazCLI-linux.gtk.x86_64.zip"
