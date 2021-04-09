@@ -6,7 +6,6 @@
 #
 # Since this code is an adaptation it hasn't been directly tested, but the code it was adapted from works
 # and hopefully you can get the missing piece you're after by looking here.
-#
 
 # Original credit to: https://gist.github.com/josh-padnick/fdae42c07e648c798fc27dec2367da21
 
@@ -15,10 +14,10 @@ set -e
 # Parse CLI args
 readonly github_oauth_token="$1"
 readonly git_tag="$2"
-readonly github_repo_owner="compuware-ispw"
-readonly github_repo_name="topaz-cli"
-readonly release_asset_filename="TopazCLI-linux.gtk.x86_64.zip"
-readonly output_path="./dist/TopazCLI-linux.gtk.x86_64.zip"
+readonly github_repo_owner="$3"
+readonly github_repo_name="$4"
+readonly release_asset_filename="$5"
+readonly output_path="$6"
 
 # Get the "github tag id" of this release
 github_tag_id=$(curl --silent --show-error \
@@ -26,6 +25,7 @@ github_tag_id=$(curl --silent --show-error \
                      --request GET \
                      "https://api.github.com/repos/$github_repo_owner/$github_repo_name/releases" \
                      | jq --raw-output ".[] | select(.tag_name==\"$git_tag\").id")
+echo github_tag_id=$github_tag_id
 
 # Get the download URL of our desired asset
 download_url=$(curl --silent --show-error \
@@ -35,6 +35,7 @@ download_url=$(curl --silent --show-error \
                     --request GET \
                     "https://api.github.com/repos/$github_repo_owner/$github_repo_name/releases/$github_tag_id" \
                     | jq --raw-output ".assets[] | select(.name==\"$release_asset_filename\").url")
+echo download_url=$download_url
 
 # Get GitHub's S3 redirect URL
 # Why not just curl's built-in "--location" option to auto-redirect? Because curl then wants to include all the original
@@ -45,9 +46,10 @@ redirect_url=$(curl --silent --show-error \
           --request GET \
           --write-out "%{redirect_url}" \
           "$download_url")
+echo redirect_url=$redirect_url
 
 # Finally download the actual binary
-sudo curl --silent --show-error \
+curl --silent --show-error \
           --header "Accept: application/octet-stream" \
           --output "$output_path" \
           --request GET \

@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Download Topaz CLI release
         run: |
-          ./dist/download.sh ${{ secrets.XDEVREG_DOWNLOAD }} ${{ github.event.inputs.tag-ver }}.gtk
+          ./dist/download.sh ${{ secrets.XDEVREG_DOWNLOAD }} v20.6.1.gtk compuware-ispw topaz-cli TopazCLI-linux.gtk.x86_64.zip ./tmp.zip
       -
         name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
