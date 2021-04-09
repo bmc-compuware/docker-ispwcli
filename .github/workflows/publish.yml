@@ -21,12 +21,12 @@ jobs:
         uses: actions/checkout@v2
       - 
         name: install curl
-        run: sudo apt-get -y install curl
+        run: |
+          sudo apt-get -y install curl
       - 
         name: Download Topaz CLI release
         run: |
-          sudo apt-get -y install curl \
-          ./dist/download.sh ${{ secrets.XDEVREG_DOWNLOAD }} v20.6.1.gtk compuware-ispw topaz-cli TopazCLI-linux.gtk.x86_64.zip ./tmp.zip
+          ./dist/download.sh ${{ secrets.XDEVREG_DOWNLOAD }} v20.6.1.gtk compuware-ispw topaz-cli TopazCLI-linux.gtk.x86_64.zip ./dist/TopazCLI-linux.gtk.x86_64.zip
       -
         name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
