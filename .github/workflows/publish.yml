@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       tag-ver:
-        description: 'Tag container version (default, latest). For example, v20.7.1'
+        description: 'Tag container version (Default, latest). For example, v20.7.1'
         required: true
-        default: 'v20.6.1'
+        default: 'latest'
       confirm-push:
-        description: 'Push to GitHub container registry (default, false)?'
+        description: 'Push to GitHub container registry (Default, false)?'
         required: true
         default: 'false'
 
@@ -34,10 +34,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - 
-        name: build image and push
+        name: Build and push docker
         run: |
+          echo "Building... ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}"
           docker build -t ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }} .
           if ${{ github.event.inputs.confirm-push }} == true ; then
+            echo "Push... ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}"
             docker push ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
           fi
 
