@@ -31,7 +31,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: docker.com
-          username: ${{ secrets.DOCKER_ID }}
+          username: bmctopaz
           password: ${{ secrets.DOCKER_TOKEN }}
       #Seems buggy, cannot handle dynamic download package asset, e.g., TopazCLI.zip during runtime
       #- 
