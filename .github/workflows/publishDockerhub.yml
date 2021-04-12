@@ -46,8 +46,9 @@ jobs:
         name: Build and push to Dockerhub
         run: |
           echo "Building... docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
-          docker build -t docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} .
+          docker build -t bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} .
           if ${{ github.event.inputs.confirm-push }} == true ; then
+            docker tag bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
             echo "Push... docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
             docker push docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
           fi
