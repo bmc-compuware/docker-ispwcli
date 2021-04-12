@@ -47,7 +47,7 @@ jobs:
           echo "Building... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
           docker build -t bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} .
           if ${{ github.event.inputs.confirm-push }} == true ; then
-            docker tag bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} docker.com/bmctopaz/ispw:${{ github.event.inputs.tag-ver }}
+            docker tag bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
             docker image ls
             echo "Push... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
             docker push docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
