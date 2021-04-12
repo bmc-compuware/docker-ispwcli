@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       tag-ver:
-        description: 'Tag container version (Default, latest). For example, v20.7.1'
+        description: 'Tag container version (Default, latest). For example, v20.7.1.gtk-alpha'
         required: true
-        default: 'latest'
+        default: 'v20.7.1.gtk-alpha'
       confirm-push:
         description: 'Push to GitHub container registry (Default, false)?'
         required: true
@@ -22,7 +22,7 @@ jobs:
       - 
         name: Download Topaz CLI release
         run: |
-          ./dist/download.sh ${{ secrets.XDEVREG_DOWNLOAD }} ${{ github.event.inputs.tag-ver }}.gtk compuware-ispw topaz-cli TopazCLI-linux.gtk.x86_64.zip ./dist/TopazCLI-linux.gtk.x86_64.zip
+          ./dist/download.sh ${{ secrets.XDEVREG_DOWNLOAD }} ${{ github.event.inputs.tag-ver }} compuware-ispw topaz-cli TopazCLI-linux.gtk.x86_64.zip ./dist/TopazCLI-linux.gtk.x86_64.zip
       -
         name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
