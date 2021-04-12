@@ -34,19 +34,20 @@ jobs:
           username: ${{ secrets.DOCKER_ID }}
           password: ${{ secrets.DOCKER_TOKEN }}
       #Seems buggy, cannot handle dynamic download package asset, e.g., TopazCLI.zip during runtime
-      - 
-        name: Build
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          push: ${{ github.event.inputs.confirm-push }}
-          tags: bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
       #- 
-      #  name: Build and push to Dockerhub
-      #  run: |
-      #    echo "Building... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
-      #    docker build -t docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} .
-      #    if ${{ github.event.inputs.confirm-push }} == true ; then
-      #      echo "Push... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
-      #      docker push docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
-      #    fi
+      #  name: Build
+      #  id: docker_build
+      #  uses: docker/build-push-action@v2
+      #  with:
+      #    push: ${{ github.event.inputs.confirm-push }}
+      #    tags: docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
+      - 
+        name: Build and push to Dockerhub
+        run: |
+          echo "Building... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
+          docker build -t bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} .
+          if ${{ github.event.inputs.confirm-push }} == true ; then
+            docker tag bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} docker.com/bmctopaz/ispw:${{ github.event.inputs.tag-ver }}
+            echo "Push... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
+            docker push docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
+          fi
