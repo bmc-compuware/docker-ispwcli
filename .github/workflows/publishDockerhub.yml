@@ -1,0 +1,52 @@
+name: Publish ISPW CLI docker container
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag-ver:
+        description: 'Tag container version (Default, latest). For example, v20.7.1.gtk-alpha'
+        required: true
+        default: 'v20.7.1.gtk-alpha'
+      confirm-push:
+        description: 'Push to DockerHub container registry (Default, false)?'
+        required: true
+        default: 'false'
+
+jobs:
+  publish-to-dockerhub:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      - 
+        name: Download Topaz CLI release
+        run: |
+          ./dist/download.sh ${{ secrets.XDEVREG_DOWNLOAD }} ${{ github.event.inputs.tag-ver }} compuware-ispw topaz-cli TopazCLI-linux.gtk.x86_64.zip ./dist/TopazCLI-linux.gtk.x86_64.zip
+      -
+        name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to Dockerhub
+        uses: docker/login-action@v1
+        with:
+          registry: docker.com
+          username: ${{ secrets.DOCKER_ID }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      #Seems buggy, cannot handle dynamic download package asset, e.g., TopazCLI.zip during runtime
+      #- 
+      #  name: Build
+      #  id: docker_build
+      #  uses: docker/build-push-action@v2
+      #  with:
+      #    push: ${{ github.event.inputs.confirm-push }}
+      #    tags: docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
+      - 
+        name: Build and push docker
+        run: |
+          echo "Building... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
+          docker build -t docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} .
+          if ${{ github.event.inputs.confirm-push }} == true ; then
+            echo "Push... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
+            docker push docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
+          fi
