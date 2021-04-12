@@ -42,7 +42,7 @@ jobs:
       #    push: ${{ github.event.inputs.confirm-push }}
       #    tags: docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
       - 
-        name: Build and push docker
+        name: Build and push to Dockerhub
         run: |
           echo "Building... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
           docker build -t docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} .

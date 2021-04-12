@@ -42,7 +42,7 @@ jobs:
       #    push: ${{ github.event.inputs.confirm-push }}
       #    tags: ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
       - 
-        name: Build and push docker
+        name: Build and push to ghcr.io
         run: |
           echo "Building... ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}"
           docker build -t ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }} .
@@ -50,27 +50,4 @@ jobs:
             echo "Push... ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}"
             docker push ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
           fi
-      -
-        name: Login to Dockerhub
-        uses: docker/login-action@v1
-        with:
-          registry: docker.com
-          username: ${{ secrets.DOCKER_ID }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-      #Seems buggy, cannot handle dynamic download package asset, e.g., TopazCLI.zip during runtime
-      #- 
-      #  name: Build
-      #  id: docker_build
-      #  uses: docker/build-push-action@v2
-      #  with:
-      #    push: ${{ github.event.inputs.confirm-push }}
-      #    tags: ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
-      - 
-        name: Build and push docker
-        run: |
-          echo "Building... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
-          docker build -t docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} .
-          if ${{ github.event.inputs.confirm-push }} == true ; then
-            echo "Push... docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
-            docker push docker.com/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
-          fi
+ 
