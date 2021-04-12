@@ -1,4 +1,4 @@
-name: Publish ISPW CLI docker container
+name: Publish to docker.com - ISPW CLI docker container
 
 on:
   workflow_dispatch:

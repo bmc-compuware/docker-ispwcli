@@ -1,4 +1,4 @@
-name: Publish ISPW CLI docker container
+name: Publish to ghcr.io - ISPW CLI docker container
 
 on:
   workflow_dispatch:
