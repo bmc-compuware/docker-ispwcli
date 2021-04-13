@@ -14,8 +14,8 @@ on:
 
 jobs:
   publish-to-dockerhub:
-    #runs-on: ubuntu-latest
-    runs-on: [self-hosted, ubuntu20]
+    runs-on: ubuntu-latest
+    #runs-on: [self-hosted, ubuntu20]
     steps:
       -
         name: Checkout
@@ -50,5 +50,5 @@ jobs:
           if ${{ github.event.inputs.confirm-push }} == true ; then
             docker tag bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
             echo "Push... docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
-            docker push docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
+            docker push bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
           fi
