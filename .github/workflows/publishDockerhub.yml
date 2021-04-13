@@ -27,6 +27,7 @@ jobs:
       -
         name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
+      #Seems buddy, login success, but failed to push. have to login manually
       #-
       #  name: Login to Dockerhub
       #  uses: docker/login-action@v1
@@ -45,6 +46,7 @@ jobs:
       - 
         name: Build and push to Dockerhub
         run: |
+          echo "Login.... to docker"
           echo ${{ secrets.DOCKER_TOKEN }} | docker login --username bmctopaz --password-stdin
           echo "Building... docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
           docker build -t bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} .
