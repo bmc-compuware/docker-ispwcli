@@ -40,14 +40,14 @@ jobs:
       #  uses: docker/build-push-action@v2
       #  with:
       #    push: ${{ github.event.inputs.confirm-push }}
-      #    tags: ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
+      #    tags: ghcr.io/bmc-compuware/ispwcli:${{ github.event.inputs.tag-ver }}
       - 
         name: Build and push to ghcr.io
         run: |
-          echo "Building... ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}"
-          docker build -t ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }} .
+          echo "Building... ghcr.io/bmc-compuware/ispwcli:${{ github.event.inputs.tag-ver }}"
+          docker build -t ghcr.io/bmc-compuware/ispwcli:${{ github.event.inputs.tag-ver }} .
           if ${{ github.event.inputs.confirm-push }} == true ; then
-            echo "Push... ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}"
-            docker push ghcr.io/compuware-ispw/ispwcli:${{ github.event.inputs.tag-ver }}
+            echo "Push... ghcr.io/bmc-compuware/ispwcli:${{ github.event.inputs.tag-ver }}"
+            docker push ghcr.io/bmc-compuware/ispwcli:${{ github.event.inputs.tag-ver }}
           fi
  
