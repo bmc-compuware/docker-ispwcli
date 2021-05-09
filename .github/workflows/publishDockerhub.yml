@@ -42,16 +42,16 @@ jobs:
       #  uses: docker/build-push-action@v2
       #  with:
       #    push: ${{ github.event.inputs.confirm-push }}
-      #    tags: docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
+      #    tags: docker.io/bmccompuware/ispwcli:${{ github.event.inputs.tag-ver }}
       - 
         name: Build and push to Dockerhub
         run: |
           echo "Login.... to docker"
           echo ${{ secrets.DOCKER_TOKEN }} | docker login --username bmctopaz --password-stdin
-          echo "Building... docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
-          docker build -t bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} .
+          echo "Building... docker.io/bmccompuware/ispwcli:${{ github.event.inputs.tag-ver }}"
+          docker build -t bmccompuware/ispwcli:${{ github.event.inputs.tag-ver }} .
           if ${{ github.event.inputs.confirm-push }} == true ; then
-            docker tag bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }} docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
-            echo "Push... docker.io/bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}"
-            docker push bmctopaz/ispwcli:${{ github.event.inputs.tag-ver }}
+            docker tag bmccompuware/ispwcli:${{ github.event.inputs.tag-ver }} docker.io/bmccompuware/ispwcli:${{ github.event.inputs.tag-ver }}
+            echo "Push... docker.io/bmccompuware/ispwcli:${{ github.event.inputs.tag-ver }}"
+            docker push bmccompuware/ispwcli:${{ github.event.inputs.tag-ver }}
           fi
