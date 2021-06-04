@@ -6,7 +6,7 @@ on:
       tag-ver:
         description: 'Tag container version (Default, latest). For example, v20.7.1.gtk-alpha'
         required: true
-        default: 'v20.7.1.gtk-alpha'
+        default: 'v20.7.gtk.nightly'
       confirm-push:
         description: 'Push to DockerHub container registry (Default, false)?'
         required: true
