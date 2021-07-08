@@ -47,7 +47,7 @@ jobs:
         name: Build and push to Dockerhub
         run: |
           echo "Login.... to docker"
-          docker login --username bmctopaz --password ${{ secrets.DOCKER_TOKEN }}
+          echo ${{ secrets.DOCKER_TOKEN }} | docker login --username bmctopaz --password-stdin
           echo "Building... docker.io/bmccompuware/ispwcli:${{ github.event.inputs.tag-ver }}"
           docker build -t bmccompuware/ispwcli:${{ github.event.inputs.tag-ver }} .
           if ${{ github.event.inputs.confirm-push }} == true ; then
