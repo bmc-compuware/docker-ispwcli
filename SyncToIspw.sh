@@ -7,8 +7,8 @@
 # * All Compuware products listed within the materials are trademarks of Compuware Corporation. All other company or product
 # * names are trademarks of their respective owners.
 # * 
-# * Copyright (c) 2021 Compuware Corporation. 
-# * Copyright (c) 2021 BMC Software, Inc. All rights reserved.
+# * Copyright (c) 2021 Compuware Corporation. All rights reserved.
+# * Copyright (c) 2021 - 2025 BMC Software, Inc.
 # */
 
 echo "INPUT_SHOWENV=${INPUT_SHOWENV}"
@@ -52,12 +52,17 @@ if [[ ! -z ${INPUT_SHOWENV} ]] ; then
     echo "INPUT_UID=${INPUT_UID}"
     echo "INPUT_RUNTIMECONFIGURATION=${INPUT_RUNTIMECONFIGURATION}"
     echo "INPUT_STREAM=$INPUT_STREAM"
-    echo "INPUT_APPLICATION=$INPUT_APPLICATION"
+    echo "INPUT_APPLICATION=$INPUT_APPLICATION"    
+    echo "INPUT_SUBAPPL=$INPUT_SUBAPPL"
     echo "INPUT_CHECKOUTLEVEL=$INPUT_CHECKOUTLEVEL"
     echo "INPUT_GITUID=${INPUT_GITUID}"
 
     echo "INPUT_CONTAINERCREATION=${INPUT_CONTAINERCREATION}"
     echo "INPUT_CONTAINERDESCRIPTION=${INPUT_CONTAINERDESCRIPTION}"
+fi
+
+if [[ -z ${INPUT_SUBAPPL} ]] ; then
+    INPUT_SUBAPPL=$INPUT_APPLICATION
 fi
 
 if [[ -z ${INPUT_CONTAINERCREATION} ]] ; then
@@ -82,13 +87,23 @@ if [[ ! -z ${INPUT_TIMEOUT} ]] ; then
     extra_args="${extra_args} -timeout ${INPUT_TIMEOUT}"
 fi
 
+if [[ ! -z ${INPUT_CERTIFICATE} ]] ; then
+    auth_args="-certificate ${INPUT_CERTIFICATE}"
+else
+    auth_args="-id ${INPUT_UID} -pass ${INPUT_PASS}"
+fi
+
 if [[ ! -z ${INPUT_SHOWENV} ]] ; then 
     echo "INPUT_CONTAINERCREATION=${INPUT_CONTAINERCREATION}"
     echo "extra_args=${extra_args}"
-    echo "cmd=/TopazCliInstall/IspwCLI.sh -host $INPUT_HOST -port $INPUT_PORT -id ${INPUT_UID} -pass *** -operation syncGitToIspw -ispwServerConfig ${INPUT_RUNTIMECONFIGURATION} -ispwServerStream $INPUT_STREAM -ispwServerApp $INPUT_APPLICATION -ispwCheckoutLevel ${INPUT_CHECKOUTLEVEL} -gitRepoUrl $GIT_REPO -gitUsername ${INPUT_GITUID} -gitPassword *** -ispwContainerCreation ${INPUT_CONTAINERCREATION} -gitBranch $GIT_BRANCH -gitCommit $GIT_DELTA_FILES  -gitFromHash -1 -targetFolder $GITHUB_WORKSPACE -gitLocalPath $GITHUB_WORKSPACE ${extra_args}"
+    if [[ ! -z ${INPUT_CERTIFICATE} ]] ; then
+        echo "cmd=/TopazCliInstall/IspwCLI.sh -host $INPUT_HOST -port $INPUT_PORT -certificate *** -operation syncGitToIspw -ispwServerConfig ${INPUT_RUNTIMECONFIGURATION} -ispwServerStream $INPUT_STREAM -ispwServerApp $INPUT_APPLICATION -ispwServerSubAppl $INPUT_SUBAPPL -ispwCheckoutLevel ${INPUT_CHECKOUTLEVEL} -gitRepoUrl $GIT_REPO -gitUsername ${INPUT_GITUID} -gitPassword *** -ispwContainerCreation ${INPUT_CONTAINERCREATION} -gitBranch $GIT_BRANCH -gitCommit $GIT_DELTA_FILES  -gitFromHash -1 -targetFolder $GITHUB_WORKSPACE -gitLocalPath $GITHUB_WORKSPACE ${extra_args}"
+    else
+        echo "cmd=/TopazCliInstall/IspwCLI.sh -host $INPUT_HOST -port $INPUT_PORT -id ${INPUT_UID} -pass *** -operation syncGitToIspw -ispwServerConfig ${INPUT_RUNTIMECONFIGURATION} -ispwServerStream $INPUT_STREAM -ispwServerApp $INPUT_APPLICATION -ispwServerSubAppl $INPUT_SUBAPPL -ispwCheckoutLevel ${INPUT_CHECKOUTLEVEL} -gitRepoUrl $GIT_REPO -gitUsername ${INPUT_GITUID} -gitPassword *** -ispwContainerCreation ${INPUT_CONTAINERCREATION} -gitBranch $GIT_BRANCH -gitCommit $GIT_DELTA_FILES  -gitFromHash -1 -targetFolder $GITHUB_WORKSPACE -gitLocalPath $GITHUB_WORKSPACE ${extra_args}"
+    fi
 fi 
 
-/TopazCliInstall/IspwCLI.sh -host $INPUT_HOST -port $INPUT_PORT -id ${INPUT_UID} -pass $INPUT_PASS -operation syncGitToIspw -ispwServerConfig ${INPUT_RUNTIMECONFIGURATION} -ispwServerStream $INPUT_STREAM -ispwServerApp $INPUT_APPLICATION -ispwCheckoutLevel ${INPUT_CHECKOUTLEVEL} -gitRepoUrl $GIT_REPO -gitUsername ${INPUT_GITUID} -gitPassword ${INPUT_GITTOKEN} -ispwContainerCreation ${INPUT_CONTAINERCREATION} -gitBranch $GIT_BRANCH -gitCommit $GIT_DELTA_FILES  -gitFromHash -1 -targetFolder $GITHUB_WORKSPACE -gitLocalPath $GITHUB_WORKSPACE ${extra_args}
+/TopazCliInstall/IspwCLI.sh -host $INPUT_HOST -port $INPUT_PORT ${auth_args} -operation syncGitToIspw -ispwServerConfig ${INPUT_RUNTIMECONFIGURATION} -ispwServerStream $INPUT_STREAM -ispwServerApp $INPUT_APPLICATION -ispwServerSubAppl $INPUT_SUBAPPL -ispwCheckoutLevel ${INPUT_CHECKOUTLEVEL} -gitRepoUrl $GIT_REPO -gitUsername ${INPUT_GITUID} -gitPassword ${INPUT_GITTOKEN} -ispwContainerCreation ${INPUT_CONTAINERCREATION} -gitBranch $GIT_BRANCH -gitCommit $GIT_DELTA_FILES  -gitFromHash -1 -targetFolder $GITHUB_WORKSPACE -gitLocalPath $GITHUB_WORKSPACE ${extra_args}
 
 automaticBuildJson="{}"
 if [[ -f "${GITHUB_WORKSPACE}/automaticBuildParams.txt" ]] ; then
