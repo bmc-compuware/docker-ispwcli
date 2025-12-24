@@ -1,10 +1,11 @@
 
-FROM adoptopenjdk/openjdk11:jre-11.0.10_9
+#FROM adoptopenjdk/openjdk11:jre-11.0.10_9
+FROM eclipse-temurin:17.0.17_10-jre-jammy
 
 LABEL author="Compuware - A BMC Company"
 USER root
 
-RUN apt-get --no-install-recommends update \
+RUN apt-get update \
     && apt-get install -y --no-install-recommends unzip git-core wget \
     && rm -rf /var/lib/apt/lists/*
 
